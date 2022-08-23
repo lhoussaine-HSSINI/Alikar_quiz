@@ -97,40 +97,39 @@ export default {
       this.elapsed += Math.min(time - lastTime, this.duration - this.elapsed)
       lastTime = time
       this.handle = requestAnimationFrame(update)
+      if (this.elapsed > 60000){
+        this.next();
+      }
     }
     update()
-  },
-  watch: {
-    time(){
-      if (this.elapsed >59){
-                this.next()
-        }else{
-          return this.elapsed}
-    }
-  },
+
+  }
+,
   methods: {
 
     next(){
       if(this.count <4){
         this.count ++
+        this.elapsed= 0
       }else{
         this.page_natija=true
         this.page_quiz =false
-        console.log(this.$store.state.natija.score)
         console.log(this.elapsed)
-        this.count = 0; }
+        this.elapsed= 0
+      }
     },
     answers(correct){
       if (correct){
         this.$store.commit('setNatija', 1)
       }
       this.next()
-      this.elapsed= 0
     },
     restart(){
       this.$store.commit('restart')
       this.page_natija=false
       this.page_quiz =true
+      this.count=0
+      this.elapsed= 0
     }
   }
 }
